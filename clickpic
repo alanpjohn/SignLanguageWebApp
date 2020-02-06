@@ -1,0 +1,25 @@
+#!/bin/bash
+classname(){
+    read -p "Enter class in lowercase : " dir
+    path=$(pwd)/dataset/$dir
+    [ -d $path ] || mkdir $path
+}
+classname
+next="true"
+while [ $next = "true" ]
+do
+    read -p "press enter and wait 2 seconds to click pic"
+    sleep 2
+    name=$(date "+%H%M%S%d%m%y").jpeg
+    streamer -t 10 -r 2 -o $path/$name &> /dev/null
+    echo "images captured stored in $path"
+    read -p "enter s to changeClass , d to cancel anything else to continue : " char
+    if [ $char = "s" ]
+    then
+        classname
+    fi
+    if [ $char = "d" ]
+    then
+        exit
+    fi
+done
