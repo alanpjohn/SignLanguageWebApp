@@ -10,17 +10,17 @@ var corsOptions = {
 var bin=fs.readFileSync('./model/my_model/weights.bin')    
 app = new express()
 app.use(cors(corsOptions));
-app.get("/model.json" , async (req,res)=>{
+app.get("/api/model.json" , async (req,res)=>{
     var words=JSON.parse(data);
     console.log(words);
     res.send(words)
 });
-app.get("/metadata.json" , async (req,res)=>{
+app.get("/api/metadata.json" , async (req,res)=>{
     var words=JSON.parse(metadata);
     console.log(words);
     res.send(words)
 });
-app.get("/weights.bin" , async (req,res)=>{
+app.get("/api/weights.bin" , async (req,res)=>{
     res.send(bin)
 });
 
