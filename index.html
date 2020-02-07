@@ -6,7 +6,7 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <a class="navbar-brand" href="#">AskEye</a>
-            
+
           </nav>
         <div class="container">
             <div class="jumbotron">
@@ -22,21 +22,31 @@
                     We are showing the most probable word for a particular hand sign if any<br>
                     <hr class="my-1">
                     <strong>Following hand-signs are recognized</strong><br>
- hello , deaf , love  i love you , mother , friend , thank you 
- 
+ hello , deaf , love , i love you , please , friend , thank you
+
                 </div>
                 <div class="bg-warning card-footer">
-                    <p class="mb-0">This is still a model in training so be careful. Accuracy as well as no. of classes will increase over time</p>
+                    <p class="mb-0">This is still a model in training so be careful as it may take time to load depending on your network speed. Accuracy as well as no. of classes will increase over time</p>
                 </div>
-                </div>    
+                </div>
                 </div>
                 </div>
                 <hr class="my-4">
-                <div class="col-lg-4 offset-4">
+              <div class="row">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
                     <button id="init" class="btn btn-primary btn-lg" type="button" onclick="init()" style="width:100%;">Start</button>
                 </div>
+                <div class="col-lg-4"></div>
               </div>
-        </div>
+              </div>
+
+              <blockquote class="blockquote">
+                <h3>About Us</h3>
+                <p class="mb-0">We are a team of students from Army Institute of Technology and this project is introduced for assissting the differently abled people to converse freely.</p>
+                <footer class="blockquote-footer">CLAW_Senses</footer>
+              </blockquote>
+    </div>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
         <script type="text/javascript">
@@ -54,7 +64,7 @@
                 const metadataURL = URL + "metadata.json";
                 document.getElementById("init").style.display = "none"
                 document.getElementById("card").style.display = "block"
-                
+
                 // load the model and metadata
                 // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
                 // or files from your local hard drive
@@ -73,7 +83,7 @@
 
                 // append elements to the DOM
                 document.getElementById("webcam-container").appendChild(webcam.canvas);
-                console.log(document.children)  
+                console.log(document.children)
                 labelContainer = document.getElementById("label-container");
                 for (let i = 0; i < maxPredictions; i++) { // and class labels
                     labelContainer.appendChild(document.createElement("div"));
@@ -98,6 +108,12 @@
                     if (prediction[i].probability.toFixed(2) > max) {
                         max = prediction[i].probability.toFixed(2)
                         header = prediction[i].className
+                        if(header == 'idle') {
+                          document.getElementById("header").className="badge badge-secondary"
+                        }
+                        else{
+                          document.getElementById("header").className="badge badge-success"
+                        }
                         document.getElementById("header").innerText = header
                     }
                 }
