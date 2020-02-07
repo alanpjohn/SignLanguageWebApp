@@ -1,0 +1,14 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/http-temp
+hooks:
+  BeforeInstall:
+    - location: scripts/install.sh
+      timeout: 100
+      runas: ubuntu
+  ValidateService:
+    - location: scripts/reloadServer.sh
+      timeout: 100
+      runas: ubuntu
