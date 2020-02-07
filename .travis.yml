@@ -1,0 +1,11 @@
+deploy:
+  - provider: codedeploy
+    revision_type: github
+    access_key_id: AKIAR4CGF2A77PX5MMRE 
+    secret_access_key: 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
+    application: deploy-agent
+    deployment_group: deploy-prod
+    region: ap-south-1
+    on:
+      branch: master
+      repo: TheForeverLost/SignLanguageWebApp
