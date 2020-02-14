@@ -2,15 +2,19 @@ language: node_js
 node_js: 12
 os: linux
 before_install:
-  - npm i -g npm@latest
+- npm i -g npm@latest
 deploy:
-  - provider: codedeploy
-    revision_type: github
-    access_key_id: AKIAR4CGF2A77PX5MMRE 
-    secret_access_key: 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
-    application: deploy-agent
-    deployment_group: deploy-prod
-    region: ap-south-1
-    on:
-      branch: master
-      repo: TheForeverLost/SignLanguageWebApp
+- provider: codedeploy
+  revision_type: github
+  access_key_id: $awskey
+  secret_access_key: $awssecretkey
+  application: deploy-agent
+  deployment_group: deploy-prod
+  region: ap-south-1
+  on:
+    branch: master
+    repo: TheForeverLost/SignLanguageWebApp
+env:
+  global:
+  - secure: VjNNu+zekjuLeKlwuODt8LzENDx4faHJo/ZD1Ws20IO3SNC+24uK6dP69w2HmItCgcmJRgqmo3qAhsrp5JBESaF9Qt51JvwkkQp1liyLk8pbGFfv3e5Crt8JQEsj0bH/dPTJ9+RthJDQ08LSAM/GZLr4OkmYa30JB0V5gqK9IH9d4kvC6Rqa6ssc22gBECgsowWYPvqAdvzrxAhDpF259e/3x7erjir5StD19WJ2QzpXzrNn9zwJHocMjzOtOP/EMAGRbWCaNPxP+SHmPPfo0FiDQEkShtjb3zCy6dp211ahrBxrqn/IIjgv+JTE3kZFMikbsriuZmanZmP40JjGwb4lAvVbqUK+NdE8L7XsknuImofkwQOHFkf4AC/o1h7vDT//P/ZejilWWjBtH296SzEv940WdojLOZjV2h5G6+i///o6f61AApdBIKYz8DmXFYoVQd8Gegs3/SuHCFhofeSbuND/c4YfHJjs0NZIlVt0OKnjYup707gOJ1QF/jeAzTkqucn3l8DSoImMoSlMnENuFQvR1/U3Vf8fFDI0xi437jrYxcm5/4qV4eTwPA+pkdc+Yu04mhDdkALSdSuQyDvvtcSvI3pBb4ZW+PX3d9vuQjriZhpFh0O0kEx5oq1KuGrIieb5FBjKQN76U9L/sLK1hA/hKhe/qhtr/4gJzFg=
+  - secure: DG1tKJPtOGWqi7yo8/hSBhLVtfVQEYRlMVVdNadID/0QqIb3OPaxLl/xTervHZocGk4jMTYvgYLZO3MAOvSuk9hLFLZyy53pcA2/qlOxIJaEibLP/6Ty8YAnwwpngk66k3v21qy9EozwfEvE8NTOOX//NGZnGbEN4IsHynNe7htfC0k7ksQqcMiuK/4CqNyh5RES4DWrywdsggzbZW//GTeDjuUYOhO5rUt4/Mcowe1EYrBa8m7oGwSTeGe/g5RMqM4a1HUIbnISaDCnLmN3+VhRL6Xg+/FhxJQliF4VbHl+UF97VdOLbmS1vMZarw0qOqOcM0TwjIxKjWUWeLcauSrze0lF8EseJszR+fzjqcGQqG5V2pI0ibBnwqpvhN6Z7z55e7RztbXR60dXP9CO7FOzYdd6EmPbRiU7rXf56UdMNCze4rtE+EioYgSavOqDIwIUP1BMp2iMGzsIrTd9oY3RnqQj3SFc/0yzK+aamqj2BZGP5jWGw7JUsBG6qJWFsZEVFe8CxtRhE9qKwyqdNYbI3jZyyLQcrzx+bcwbwDu9fQNTuLArB51wsDMu7gBZQr+mqoTn8fxqFfOYIoSglVd0JZfRPBB7w5Dh3L8fT0mNBydta6zHFkgLbBd7jtBftDUP20DW5xETP3RtdCkLL7zR0spm1uKBeGXMCqufPXA=
