@@ -4,7 +4,7 @@ const cors = require('cors')
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const bodyParser = require('body-parser')
-
+const session = require('express-session')
 // Connection URL
 const url = "mongodb+srv://AlanJohn:Claw123@claw-6czxa.mongodb.net/test?retryWrites=true&w=majority";
  
@@ -20,7 +20,12 @@ var corsOptions = {
 var bin=fs.readFileSync('./model/my_model/weights.bin')    
 app = new express()
 app.use(cors(corsOptions));
-
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse form data client
 
@@ -103,13 +108,16 @@ app.get("/api/connect", async (req,res)=>{
         var newvalues = { $set: {guest: true, connecttime: Date.now()} };
         await db.collection('Sessions').updateOne(searchquery,newvalues);
         client.close();
-        res.send({success:true})
+        req.session.user = userhash;
+        console.log(req.session)
+        //res.send({success:true})
+        res.redirect("https://www.clawpro.club");
     }); 
     }catch(err){
         console.log(err)
         res.send({success:false})
     }
-    sessionStorage.setItem("user", userhash);
+    
 });
 
 var server = require('http').Server(app);
