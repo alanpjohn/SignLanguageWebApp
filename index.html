@@ -125,8 +125,20 @@
             }
         </script>
         <script src="http://localhost:3000/socket.io/socket.io.js"></script>
-        <script>
-          var room = sessionStorage.getItem(user)
+        <script>          
+          function getCookie(tabs) {
+            var getting = browser.cookies.get({
+                url: tabs[0].url,
+                name: "user"
+            });
+            return getting
+          }
+          var getActive = browser.tabs.query({
+          active: true,
+          currentWindow: true
+          });
+          console.log(getActive.then(getCookie));
+          let person = "test"
           var person = prompt("Please enter your name", "Username");
           var socket = io.connect('http://localhost:3000',{secure : true});
           socket.on('news', function (data) {
