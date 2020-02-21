@@ -121,10 +121,11 @@
         </script>
         <script src="http://localhost:3000/socket.io/socket.io.js"></script>
         <script>
+          var person = prompt("Please enter your name", "Username");
           var socket = io.connect('http://localhost:3000');
           socket.on('news', function (data) {
             console.log(data);
-            socket.emit('my other event', { my: 'data' });
+            socket.emit('my other event', { my: person });
           });
         </script>
     </body>
