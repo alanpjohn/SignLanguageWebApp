@@ -54,7 +54,7 @@
             // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
             // the link to your model provided by Teachable Machine export panel
-            const URL = "https://www.clawpro.club/api/";
+            const URL = "http://localhost:3000/api/";
 
             let model, webcam, labelContainer, maxPredictions;
 
@@ -119,6 +119,14 @@
                 }
             }
         </script>
-
+        <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+        <script>
+          var person = prompt("Please enter your name", "Username");
+          var socket = io.connect('http://localhost:3000');
+          socket.on('news', function (data) {
+            console.log(data);
+            socket.emit('my other event', { my: person });
+          });
+        </script>
     </body>
 </html>
