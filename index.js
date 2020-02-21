@@ -27,12 +27,10 @@ app.use(bodyParser.json()); // parse form data client
 
 app.get("/api/model.json" , async (req,res)=>{
     var words=JSON.parse(data);
-    console.log(words);
     res.send(words)
 });
 app.get("/api/metadata.json" , async (req,res)=>{
     var words=JSON.parse(metadata);
-    console.log(words);
     res.send(words)
 });
 app.get("/api/weights.bin" , async (req,res)=>{
@@ -52,7 +50,6 @@ app.post("/api/start", async (req,res,next)=>{
             if(client == null){
                 throw err;
             }
-            console.log(date)
             const db = client.db(dbName);
             await db.collection('Sessions').insertOne({
                 startTime: date,
@@ -93,10 +90,9 @@ app.post("/api/end", async (req,res)=>{
     }
 });
 
-app.post("/api/connect", async (req,res)=>{
+app.get("/api/connect", async (req,res)=>{
     // end session
     let userhash = req.query.user
-    console.log(userhash)
     try{
     await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
         assert.equal(null, err);
@@ -113,6 +109,7 @@ app.post("/api/connect", async (req,res)=>{
         console.log(err)
         res.send({success:false})
     }
+    sessionStorage.setItem("user", userhash);
 });
 
 var server = require('http').Server(app);
