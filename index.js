@@ -106,7 +106,7 @@ app.get("/api/connect", async (req,res)=>{
         client.close();
         console.log(req.session)
         //res.send({success:true})
-        res.cookie(name, 'user', userhash , { expire: 360000 + Date.now()}).redirect("https://www.clawpro.club");
+        res.cookie("user",userhash, { expire: 360000 + Date.now()}).redirect("https://www.clawpro.club");
     }); 
     }catch(err){
         console.log(err)
