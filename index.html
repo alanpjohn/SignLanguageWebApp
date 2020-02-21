@@ -2,6 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="bootstrap.css">
+        <title>AskEye</title>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -42,7 +43,7 @@
               </div>
 
               <blockquote class="blockquote">
-                <h3>About Us</h3>
+                <h3>About Us</h3>
                 <p class="mb-0">We are a team of students from Army Institute of Technology and this project is introduced for assissting the differently abled people to converse freely.</p>
                 <footer class="blockquote-footer">CLAW_Senses</footer>
               </blockquote>
@@ -122,7 +123,7 @@
         <script src="http://localhost:3000/socket.io/socket.io.js"></script>
         <script>
           var person = prompt("Please enter your name", "Username");
-          var socket = io.connect('http://localhost:3000');
+          var socket = io.connect('http://localhost:3000',{secure : true});
           socket.on('news', function (data) {
             console.log(data);
             socket.emit('my other event', { my: person });
