@@ -61,7 +61,11 @@
 
             // Load the image model and setup the webcam
             async function init() {
-                if(sessionStorage.getItem("user")){
+                let user = browser.cookies.get({
+                url: "http://localhost:3000",
+                name: "user"
+                });
+                if(user){
                     const modelURL = URL + "model.json";
                     const metadataURL = URL + "metadata.json";
                     document.getElementById("init").style.display = "none"
@@ -126,19 +130,12 @@
         </script>
         <script src="http://localhost:3000/socket.io/socket.io.js"></script>
         <script>          
-          function getCookie(tabs) {
             var getting = browser.cookies.get({
-                url: tabs[0].url,
+                url: "http://localhost:3000",
                 name: "user"
             });
-            return getting
-          }
-          var getActive = browser.tabs.query({
-          active: true,
-          currentWindow: true
-          });
-          console.log(getActive.then(getCookie));
-          let person = "test"
+            
+          console.log(getting);
           var person = prompt("Please enter your name", "Username");
           var socket = io.connect('http://localhost:3000',{secure : true});
           socket.on('news', function (data) {
