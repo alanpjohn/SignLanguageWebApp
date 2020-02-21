@@ -21,10 +21,10 @@ var bin=fs.readFileSync('./model/my_model/weights.bin')
 app = new express()
 app.use(cors(corsOptions));
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
+    secret: 'rsami123',
+    resave: true,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { maxAge:30000,  secure: true }
   }))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse form data client
