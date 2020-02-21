@@ -61,10 +61,7 @@
 
             // Load the image model and setup the webcam
             async function init() {
-                let user = browser.cookies.get({
-                url: "http://localhost:3000",
-                name: "user"
-                });
+                let user = getCookieValue("user")
                 if(user){
                     const modelURL = URL + "model.json";
                     const metadataURL = URL + "metadata.json";
@@ -129,11 +126,12 @@
             }
         </script>
         <script src="http://localhost:3000/socket.io/socket.io.js"></script>
-        <script>          
-            var getting = browser.cookies.get({
-                url: "http://localhost:3000",
-                name: "user"
-            });
+        <script> 
+            function getCookieValue(a) {
+                var b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
+                return b ? b.pop() : '';
+            }         
+            var getting = getCookieValue("user")
             
           console.log(getting);
           var person = prompt("Please enter your name", "Username");
