@@ -122,14 +122,11 @@ server.listen(3000);
 try{
 io.on('connection', (socket) => {
 
-    console.log('user connected')
-    
+    userNickname
     socket.emit('news' , "hello user");
 
     socket.on('join', function(userNickname) {
-            if(!userNickname){
-                userNickname = "test"
-            }
+                this.userNickname = userNickname;
                 console.log(userNickname +" : has joined the chat "  );
                 socket.broadcast.emit('userjoinedthechat',userNickname +" : has joined the chat ");
         })
@@ -145,7 +142,7 @@ io.on('connection', (socket) => {
           })
     
     socket.on('disconnect', function() {
-            console.log(userNickname +' has left ')
+            console.log(this.userNickname+'user has left ')
             socket.broadcast.emit( "userdisconnect" ,' user has left')
         });
     });
