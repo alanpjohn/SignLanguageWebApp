@@ -127,8 +127,11 @@ io.on('connection', (socket) => {
     socket.emit('news' , "hello user");
 
     socket.on('join', function(userNickname) {
-            console.log(userNickname +" : has joined the chat "  );
-            socket.broadcast.emit('userjoinedthechat',userNickname +" : has joined the chat ");
+            if(!userNickname){
+                userNickname = "test"
+            }
+                console.log(userNickname +" : has joined the chat "  );
+                socket.broadcast.emit('userjoinedthechat',userNickname +" : has joined the chat ");
         })
     
     
