@@ -134,7 +134,7 @@
             var getting = getCookieValue("user")
             
           console.log(getting);
-          var person = prompt("Please enter your name", "Username");
+          var person = prompt("Please enter your name", "Username") || "test";
           var socket = io.connect('http://localhost:3000',{secure : true});
           socket.emit('join', person);
         </script>

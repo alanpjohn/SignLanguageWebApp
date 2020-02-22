@@ -119,7 +119,7 @@ var io = require('socket.io')(server, { origins: '*:*'});
 
 server.listen(3000);
 // WARNING: app.listen(80) will NOT work here!
-
+try{
 io.on('connection', (socket) => {
 
     console.log('user connected')
@@ -146,3 +146,6 @@ io.on('connection', (socket) => {
             socket.broadcast.emit( "userdisconnect" ,' user has left')
         });
     });
+}catch(err){
+    console.log(err)
+}
