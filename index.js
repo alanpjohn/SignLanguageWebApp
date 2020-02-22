@@ -104,7 +104,6 @@ app.get("/api/connect", async (req,res)=>{
         var newvalues = { $set: {guest: true, connecttime: Date.now()} };
         await db.collection('Sessions').updateOne(searchquery,newvalues);
         client.close();
-        console.log(req.session)
         //res.send({success:true})
         res.cookie("user",userhash, { expire: 360000 + Date.now()}).redirect("https://www.clawpro.club");
     }); 
@@ -121,9 +120,29 @@ var io = require('socket.io')(server, { origins: '*:*'});
 server.listen(3000);
 // WARNING: app.listen(80) will NOT work here!
 
-io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-});
+io.on('connection', (socket) => {
+
+    console.log('user connected')
+    
+    socket.emit('news' , "hello user");
+
+    socket.on('join', function(userNickname) {
+            console.log(userNickname +" : has joined the chat "  );
+            socket.broadcast.emit('userjoinedthechat',userNickname +" : has joined the chat ");
+        })
+    
+    
+    socket.on('messagedetection', (senderNickname,messageContent) => {
+           //log the message in console 
+           console.log(senderNickname+" : " +messageContent)
+          //create a message object 
+          let  message = {"message":messageContent, "senderNickname":senderNickname}
+           // send the message to all users including the sender  using io.emit() 
+          io.emit('message', message )
+          })
+    
+    socket.on('disconnect', function() {
+            console.log(userNickname +' has left ')
+            socket.broadcast.emit( "userdisconnect" ,' user has left')
+        });
+    });
