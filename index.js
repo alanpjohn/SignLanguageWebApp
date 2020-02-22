@@ -122,7 +122,7 @@ server.listen(3000);
 try{
 io.on('connection', (socket) => {
 
-    userNickname
+    let userNickname = "test"
     socket.emit('news' , "hello user");
 
     socket.on('join', function(userNickname) {
@@ -130,8 +130,6 @@ io.on('connection', (socket) => {
                 console.log(userNickname +" : has joined the chat "  );
                 socket.broadcast.emit('userjoinedthechat',userNickname +" : has joined the chat ");
         })
-    
-    
     socket.on('messagedetection', (senderNickname,messageContent) => {
            //log the message in console 
            console.log(senderNickname+" : " +messageContent)
