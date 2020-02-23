@@ -125,20 +125,13 @@ io.on('connection', (socket) => {
     let userNickname = "test"
     socket.emit('news' , "hello user");
 
-    socket.on('join', function(userNickname) {
-                this.userNickname = userNickname;
+    socket.on('join', function(data) {
+                this.userNickname = data.username;
+                socket.join(data.room)
                 console.log(userNickname +" : has joined the chat "  );
-                socket.broadcast.emit('userjoinedthechat',userNickname +" : has joined the chat ");
+                socket.in(data.room).emit("login",{ numUsers : 2})
         })
-    socket.on('messagedetection', (senderNickname,messageContent) => {
-           //log the message in console 
-           console.log(senderNickname+" : " +messageContent)
-          //create a message object 
-          let  message = {"message":messageContent, "senderNickname":senderNickname}
-           // send the message to all users including the sender  using io.emit() 
-          io.emit('message', message )
-          })
-    
+
     socket.on('disconnect', function() {
             console.log(this.userNickname+'user has left ')
             socket.broadcast.emit( "userdisconnect" ,' user has left')
