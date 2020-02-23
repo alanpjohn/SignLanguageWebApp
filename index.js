@@ -128,13 +128,14 @@ io.on('connection', (socket) => {
     socket.on('join', function(data) {
                 userNickname = data.username;
                 socket.join(data.room)
+                console.log(data.room)
                 console.log(userNickname +" : has joined the chat "  );
                 socket.in(data.room).broadcast.emit("login",{ numUsers : 2})
         })
 
     socket.on('disconnect', function() {
             console.log(userNickname+'user has left ')
-            socket.broadcast.emit( "userdisconnect" ,' user has left')
+            socket.broadcast.emit( "userdisconnect" ,' has left')
         });
     });
 }catch(err){
