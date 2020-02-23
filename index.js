@@ -131,7 +131,7 @@ io.on('connection', (socket) => {
                 userNickname = data.username;
                 room = data.room
                 socket.join(room)
-                io.in(data.room).emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length})
+                io.in(data.room).emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length || 2 })
         })
     socket.on('new message' , function(data){
         io.in(room).emit("new message" , {username : userNickname , message : data});
