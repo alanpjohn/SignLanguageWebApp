@@ -130,7 +130,7 @@ io.on('connection', (socket) => {
                 socket.join(data.room)
                 console.log(data.room)
                 console.log(userNickname +" : has joined the chat "  );
-                socket.in(data.room).broadcast.emit("login",{ numUsers : 2})
+                socket.broadcast.emit("login",{ numUsers : 2})
         })
 
     socket.on('disconnect', function() {
