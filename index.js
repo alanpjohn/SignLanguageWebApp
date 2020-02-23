@@ -133,7 +133,7 @@ io.on('connection', (socket) => {
                 io.in(data.room).emit("login",{ numUsers : 2})
         })
     socket.on('new message' , function(data){
-        io.in(room).emit("new message" , {username : userNickname , message : 'hi'});
+        io.in(room).emit("new message" , {username : userNickname , message : data});
     })
     socket.on('disconnect', function() {
             console.log(userNickname+' has left ')
