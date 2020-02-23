@@ -125,18 +125,18 @@ io.on('connection', (socket) => {
     let userNickname = "test"
     let room = "test"
     socket.emit('news' , "hello user");
-
+    
     socket.on('join', function(data) {
+                console.log(data)
                 userNickname = data.username;
                 room = data.room
                 socket.join(room)
-                io.in(data.room).emit("login",{ numUsers : 2})
+                io.in(data.room).emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length})
         })
     socket.on('new message' , function(data){
         io.in(room).emit("new message" , {username : userNickname , message : data});
     })
     socket.on('disconnect', function() {
-            console.log(userNickname+' has left ')
             socket.broadcast.emit( "userdisconnect" ,' has left')
         });
     });
