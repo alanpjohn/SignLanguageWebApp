@@ -123,17 +123,17 @@ try{
 io.on('connection', (socket) => {
     console.log("connection")
     let userNickname = "test"
+    let room = "test"
     socket.emit('news' , "hello user");
 
     socket.on('join', function(data) {
                 userNickname = data.username;
-                socket.join(data.room)
-                console.log(socket.rooms)
-                console.log(userNickname +" : has joined the chat "  );
-                socket.in(socket.rooms[0]).emit("login",{ numUsers : 2})
+                room = data.room
+                socket.join(room)
+                io.in(data.room).emit("login",{ numUsers : 2})
         })
     socket.on('new message' , function(data){
-        socket.broadcast.emit("new message" , {username : "Alan" , message : 'test'});
+        io.in(room).emit("new message" , {username : userNickname , message : 'hi'});
     })
     socket.on('disconnect', function() {
             console.log(userNickname+' has left ')
