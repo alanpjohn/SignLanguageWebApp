@@ -154,7 +154,7 @@
           console.log(getting);
           var person = prompt("Please enter your name", "Username") || "test";
           var socket = io.connect('http://localhost:3000',{secure : true});
-          socket.emit('join',{username:person,room=getting})
+          socket.emit('join',{username:person,room:getting})
           const messageContainer = document.getElementById('message-container')
           const roomContainer = document.getElementById('room-container')
           const messageForm = document.getElementById('send-container')
