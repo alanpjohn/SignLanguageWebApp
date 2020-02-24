@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
     <head>
         <link rel="stylesheet" href="bootstrap.css">
@@ -131,7 +131,7 @@
                 }
             }
         </script>
-        <script src="http://www.clawpro.club/socket.io/socket.io.js"></script>
+        <script src="http://localhost:3000/socket.io/socket.io.js"></script>
         <script>
             function getCookieValue(a) {
                 var b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
@@ -141,7 +141,7 @@
 
           console.log(getting);
           var person = prompt("Please enter your name", "Username") || "test";
-          var socket = io.connect('http://www.clawpro.club');
+          var socket = io.connect('http://localhost:3000');
           socket.emit('join',{username:person,room:getting})
           const messageContainer = document.getElementById('message-container')
           const roomContainer = document.getElementById('room-container')
@@ -171,6 +171,10 @@
 
           socket.on('new message', data => {
             appendMessage(`${data.username}: ${data.message}`)
+          })
+
+          socket.on('login', (data)=> {
+              console.log(data)
           })
 
           socket.on('disconnect', name => {

@@ -122,19 +122,18 @@ server.listen(3000);
 // WARNING: app.listen(80) will NOT work here!
 try{
 io.on('connection', (socket) => {
-    console.log("connection")
     let userNickname = "test"
     let room = "test"
     socket.emit('news' , "hello user");
     
     socket.on('join', function(data) {
-                console.log(data)
                 userNickname = data.username;
                 room = data.room
                 socket.join(room)
                 io.in(data.room).emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length || 2 })
         })
     socket.on('new message' , function(data){
+        console.log(room ," : ", userNickname ," : ", data)
         io.in(room).emit("new message" , {username : userNickname , message : data});
     })
     socket.on('disconnect', function() {
