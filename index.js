@@ -136,6 +136,14 @@ io.on('connection', (socket) => {
         console.log(room ," : ", userNickname ," : ", data)
         io.in(room).emit("new message" , {username : userNickname , message : data});
     })
+
+    socket.on('typing' , function(){
+        io.in(room).emit("typing" , {username : userNickname});
+    })
+
+    socket.on('stop typing' , function(){
+        io.in(room).emit("stop typing" , {username : userNickname});
+    })
     socket.on('disconnect', function() {
             socket.broadcast.emit( "userdisconnect" ,' has left')
         });
