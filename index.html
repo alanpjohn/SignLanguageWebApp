@@ -9,7 +9,6 @@
           scroll-snap-type: y mandatory;
         }
         #message-container div {
-          background-color: #CCC;
           padding: 5px;
         }</style>
         <title>AskEye</title>
@@ -203,8 +202,8 @@
           })
 
           function appendMessage(message) {
-            const messageElement = document.createElement('div')
-            messageElement.classList.add("alert alert-dismissible alert-info")
+            let messageElement = document.createElement('div')
+            messageElement.classList.add("text-center")
             messageElement.innerText = message
             messageContainer.append(messageElement)
           }
