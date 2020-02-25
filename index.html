@@ -34,9 +34,10 @@
                       <form id="send-container">
                         <div class = "row">
                           <div class = "col-md-10">
-                          <input type="text" class="form-control" placeholder="Default input" id="inputDefault"></div>
+                          <input type="text" class="form-control" placeholder="Enter message" id="inputDefault"></div>
                           <div classs = "col-md-2">
-                        <button type="button" class="btn btn-primary" type="submit">Send</button></div>
+                        <button id="send" type="button" class="btn btn-primary" type="submit">Send</button></div>
+                        <button id="toggle" onclick="javaScript:startButton()" >Speak</button>
                       </form>
                     </div>
                     </div>
@@ -209,5 +210,40 @@
           }
 
         </script>
+        <script>
+
+          startButton = function(){
+            window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+            let finalTranscript = '';
+            let recognition = new window.SpeechRecognition();
+      
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 10;
+            recognition.continuous = true;
+      
+            recognition.onresult = (event) => {
+              let interimTranscript = '';
+              for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
+                let transcript = event.results[i][0].transcript;
+                if (event.results[i].isFinal) {
+                  finalTranscript += transcript;
+                } else {
+                  interimTranscript += transcript;
+                }
+              }
+              messageInput.value = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
+              document.getElementById("toggle").classList.add("btn-danger");
+              document.getElementById("send").style.display = "None";
+            }
+            recognition.start();
+            startButton = function(){
+              recognition.stop();
+              document.getElementById("toggle").classList.remove("btn-danger");
+              document.getElementById("send").style.display = "block";
+            }
+          }
+      
+        </script>
+        <script src="speech.js"></script>
     </body>
 </html>
