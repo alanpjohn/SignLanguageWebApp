@@ -36,7 +36,7 @@
                           <div class = "col-md-10">
                           <input type="text" class="form-control" placeholder="Enter message" id="inputDefault"></div>
                           <div classs = "col-md-2">
-                        <button id="send" type="button" class="btn btn-primary" type="submit">Send</button></div>
+                        <button id="send" class="btn btn-primary" type="submit">Send</button></div>
                       </form>
                       <button id="toggle" class="btn" onclick="javaScript:startButton()" >Speak</button>
                     </div>
@@ -211,7 +211,7 @@
 
         </script>
         <script>
-
+          let text=""
           startButton = function(){
             window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
             let finalTranscript = '';
@@ -231,15 +231,13 @@
                   interimTranscript += transcript;
                 }
               }
-              messageInput.value = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
-              document.getElementById("toggle").classList.add("btn-danger");
-              document.getElementById("send").style.display = "None";
+              text = finalTranscript;
             }
             recognition.start();
             startButton = function(){
               recognition.stop();
-              document.getElementById("toggle").classList.remove("btn-danger");
-              document.getElementById("send").style.display = "block";
+              socket.emit("new message",text);
+              text = "";
             }
           }
       
