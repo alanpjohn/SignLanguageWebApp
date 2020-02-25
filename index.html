@@ -190,17 +190,21 @@
           })*/
 
           socket.on('new message', data => {
-            appendMessage(data.username+":"+data.message)
+            if(data.username == person){
+              data.username = "Me";
+            }
+            appendMessage(data.username+" : "+data.message)
           })
           socket.on('login', data => {
             console.log(data)
           })
           socket.on('disconnect', name => {
-            appendMessage(data.username+" is disconnected")
+            appendMessage(name+" is disconnected")
           })
 
           function appendMessage(message) {
             const messageElement = document.createElement('div')
+            messageElement.classList.add("alert alert-dismissible alert-info")
             messageElement.innerText = message
             messageContainer.append(messageElement)
           }
