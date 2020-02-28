@@ -11,7 +11,7 @@ const url = "mongodb+srv://AlanJohn:Claw123@claw-6czxa.mongodb.net/test?retryWri
  
 // Database Name
 const dbName = 'SignLanguage';
- 
+var tmfile = fs.readFileSync('./config/tmclaw.js')
 var data=fs.readFileSync('./model/my_model/model.json', 'utf8');
 var metadata=fs.readFileSync('./model/my_model/metadata.json', 'utf8');
 var corsOptions = {
@@ -29,6 +29,10 @@ app.use(bodyParser.json()); // parse form data client
 app.get("/api/model.json" , async (req,res)=>{
     var words=JSON.parse(data);
     res.send(words)
+});
+
+app.get("/api/tmclaw.js" , async (req,res)=>{
+    res.send(tmfile)
 });
 app.get("/api/metadata.json" , async (req,res)=>{
     var words=JSON.parse(metadata);
