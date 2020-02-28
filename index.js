@@ -108,10 +108,6 @@ app.get("/api/image" , async (req,res)=>{
             let searchquery = {
                 word : word
             }
-            //var newvalues = { $set: {guest: true, connecttime: Date.now()} };
-            let searchquery = {
-                word : word
-            }
             db.collection("images_dictionary").findOne(searchquery,async function(err, result) {
                 if (err || !result) throw err;
                 console.log(result)
