@@ -99,7 +99,7 @@ app.post("/api/end", async (req,res)=>{
         res.send({success:false})
     }
 });
-app,get("/api/image" , async (req,res)=>{
+app.get("/api/image" , async (req,res)=>{
     let word = req.check_word;
     console.log(word+" is called");
     try{
