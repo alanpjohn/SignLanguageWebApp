@@ -214,7 +214,6 @@
           }
 
           let listening = false;
-          let recognition = null;
           function startlisten(){
             if(listening){
               listening = false;
@@ -224,7 +223,7 @@
             }else{
               window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
               let finalTranscript = '';
-              recognition = window.SpeechRecognition;
+              recognition = new window.SpeechRecognition();
 
               recognition.interimResults = true;
               recognition.maxAlternatives = 10;
