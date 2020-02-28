@@ -144,7 +144,7 @@ io.on('connection', (socket) => {
                             userHash : room
                         }
                         var newvalues = { $set: {guest: true, connecttime: Date.now()} };
-                        dbo.collection("Sessions").findOne(searchquery, function(err, result) {
+                        db.collection("Sessions").findOne(searchquery, function(err, result) {
                             if (err || !result.userHash) throw err;
                             console.log(result)
                             db.close();
