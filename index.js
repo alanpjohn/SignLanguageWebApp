@@ -51,7 +51,7 @@ app.post("/api/start", async (req,res,next)=>{
     try{
     await MongoClient.connect(url,{useUnifiedTopology: true}, async function(err, client) {
         try{
-            if(userHash) throw err;
+            if(!userHash) throw err;
             assert.equal(null, err);
             if(client == null){
                 throw err;

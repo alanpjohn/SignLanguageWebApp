@@ -36,7 +36,9 @@
                           <div class = "col-md-10">
                           <input type="text" class="form-control" placeholder="Enter message" id="inputDefault"></div>
                           <div classs = "col-md-2">
-                        <button id="send" class="btn btn-primary" type="submit">Send</button></div>
+                        <button id="send" class="btn btn-primary" type="submit">Send</button>
+                        <button id="toggle" class="btn btn-secondary" onclick="startlisten()" type="button">Voice Message</button>
+                      </div>
                       </form>
                       <!-- button id="toggle" class="btn" onclick="startButton()" >Speak</button -->
                     </div>
@@ -209,39 +211,40 @@
             messageContainer.append(messageElement)
           }
 
-        </script>
-        <script>
-          let text=""
-          startButton = function(){
-            window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-            let finalTranscript = '';
-            let recognition = new window.SpeechRecognition();
-      
-            recognition.interimResults = true;
-            recognition.maxAlternatives = 10;
-            recognition.continuous = true;
-      
-            recognition.onresult = (event) => {
-              let interimTranscript = '';
-              for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
-                let transcript = event.results[i][0].transcript;
-                if (event.results[i].isFinal) {
-                  finalTranscript += transcript;
-                } else {
-                  interimTranscript += transcript;
-                }
-              }
-              text = finalTranscript;
-            }
-            recognition.start();
-            startButton = function(){
+          let listening = false;
+          let recognition = null;
+          function startlisten(){
+            if(listening){
+              listening = false;
               recognition.stop();
-              socket.emit("new message",text);
-              text = "";
+            }else{
+              window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+              let finalTranscript = '';
+              recognition = new window.SpeechRecognition();
+
+              recognition.interimResults = true;
+              recognition.maxAlternatives = 10;
+              recognition.continuous = true;
+
+              recognition.onresult = (event) => {
+                let interimTranscript = '';
+                for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
+                  let transcript = event.results[i][0].transcript;
+                  if (event.results[i].isFinal) {
+                    finalTranscript += transcript;
+                  } else {
+                    interimTranscript += transcript;
+                  }
+                }
+                messageInput.value = finalTranscript + interimTranscript;
+              }
+              recognition.start();
+              listening = true;
             }
           }
-      
+
         </script>
+        
         <script src="speech.js"></script>
     </body>
 </html>
