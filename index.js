@@ -145,7 +145,7 @@ io.on('connection', (socket) => {
                         }
                         var newvalues = { $set: {guest: true, connecttime: Date.now()} };
                         db.collection("Sessions").findOne(searchquery, function(err, result) {
-                            if (err || !result.userHash) throw err;
+                            if (err || !result) throw err;
                             console.log(result)
                             db.close();
                         });
