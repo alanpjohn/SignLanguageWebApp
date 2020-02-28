@@ -214,15 +214,17 @@
           }
 
           let listening = false;
+          let finalTranscript = '';
           function startlisten(){
             if(listening){
               listening = false;
               if(recognition){
                 recognition.stop();
+                messageInput.value = finalTranscript
               }
             }else{
               window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
-              let finalTranscript = '';
+              finalTranscript = '';
               recognition = new window.webkitSpeechRecognition();
 
               recognition.interimResults = true;
@@ -239,7 +241,6 @@
                     interimTranscript += transcript;
                   }
                 }
-                messageInput.value = finalTranscript + interimTranscript;
               }
               recognition.start();
               listening = true;
