@@ -176,7 +176,7 @@ io.on('connection', (socket) => {
             let searchquery = {
                 userHash : room
             }
-            var newvalues = { $push: { log : {$each : { username : userNickname , msg : data}}} };
+            var newvalues = { $push: { log : {$each : [{ username : userNickname , msg : data}]}} };
             db.collection('Sessions').updateOne(searchquery,newvalues);
         }); 
         console.log(room ," : ", userNickname ," : ", data)
