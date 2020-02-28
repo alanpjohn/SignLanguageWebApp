@@ -100,7 +100,7 @@ app.post("/api/end", async (req,res)=>{
     }
 });
 app.get("/api/image" , async (req,res)=>{
-    let word = req.check_word;
+    let word = req.body.check_word;
     console.log(word+" is called");
     try{
         await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
@@ -111,8 +111,11 @@ app.get("/api/image" , async (req,res)=>{
             }
             //var newvalues = { $set: {guest: true, connecttime: Date.now()} };
             await db.collection('images_dictionary').findOne(searchquery , function(err,result){
-                if (err || !result) res.send({success:false})
-                res.send({success:true , url:result.url_link});
+                if (err || !result){ 
+                    res.send({success:false})
+                }else{
+                    res.send({success:true , url:result.url_link});
+                }
             });
             client.close();
         }); 
