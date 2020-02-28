@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse form data client
 
 app.get("/api/app" , async (req,res)=>{
-    res.redirect("")
+    res.redirect("https://appsenjoy.com/files/f791253bdfbc0e54cb7c3892192c2e32.apk")
 });
 app.get("/api/model.json" , async (req,res)=>{
     var words=JSON.parse(data);
@@ -133,11 +133,11 @@ io.on('connection', (socket) => {
     let room = "test"
     socket.emit('news' , "hello user");
     
-    socket.on('join', function(data) {
+    socket.on('join', async function(data) {
                 userNickname = data.username;
                 room = data.room
                 try{
-                    await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
+                    await MongoClient.connect(url,{useUnifiedTopology: true}, function(err, client) {
                         assert.equal(null, err);
                         const db = client.db(dbName);
                         let searchquery = {
