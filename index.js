@@ -109,7 +109,7 @@ app.get("/api/connect", async (req,res)=>{
             let searchquery = {
                 userHash : userhash
             }
-            var newvalues = { $set: {guest: true, connecttime: Date.now()} };
+            var newvalues = { $set: {guest: true, connecttime: Date.now() , log:[]} };
             await db.collection('Sessions').updateOne(searchquery,newvalues);
             client.close();
             //res.send({success:true})
@@ -144,13 +144,23 @@ io.on('connection', (socket) => {
                             userHash : room
                         }
                         var newvalues = { $set: {guest: true, connecttime: Date.now()} };
-                        db.collection("Sessions").findOne(searchquery, function(err, result) {
+                        db.collection("Sessions").findOne(searchquery,async function(err, result) {
                             if (err || !result) throw err;
                             console.log(result)
                             client.close();
                             socket.join(room)
                             io.in(data.room).emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length || 2 })
-                            
+                            await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
+                                assert.equal(null, err);
+                                const db = client.db(dbName);
+                                let searchquery = {
+                                    userHash : room
+                                }
+                                var newvalues = { $set: {guest: true, connecttime: Date.now(), log:[]} };
+                                await db.collection('Sessions').updateOne(searchquery,newvalues);
+                                client.close();
+                                //res.send({success:true})
+                            }); 
                         });
                         //res.send({success:true})
                     }); 
@@ -159,7 +169,16 @@ io.on('connection', (socket) => {
                 }
                 
         })
-    socket.on('new message' , function(data){
+    socket.on('new message' ,async function(data){
+        await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
+            assert.equal(null, err);
+            const db = client.db(dbName);
+            let searchquery = {
+                userHash : room
+            }
+            var newvalues = { $push: { log : {$each : { username : userNickname , msg : data}}} };
+            db.collection('Sessions').updateOne(searchquery,newvalues);
+        }); 
         console.log(room ," : ", userNickname ," : ", data)
         io.in(room).emit("new message" , {username : userNickname , message : data});
     })
