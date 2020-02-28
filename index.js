@@ -176,11 +176,23 @@ io.on('connection', (socket) => {
             let searchquery = {
                 userHash : room
             }
-            var newvalues = { $push: { log : {$each : [{ username : userNickname , msg : data}]}} };
+            var newvalues = { $push: { log : {$each : [{ username : userNickname , msg : data , detect:false}]}} };
             db.collection('Sessions').updateOne(searchquery,newvalues);
         }); 
         console.log(room ," : ", userNickname ," : ", data)
         io.in(room).emit("new message" , {username : userNickname , message : data});
+    })
+
+    socket.on('word detected' , async function(data){
+        MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
+            assert.equal(null, err);
+            const db = client.db(dbName);
+            let searchquery = {
+                userHash : room
+            }
+            var newvalues = { $push: { log : {$each : [{ username : userNickname , msg : data , detect:true}]}} };
+            db.collection('Sessions').updateOne(searchquery,newvalues);
+        });
     })
 
     socket.on('typing' , function(){
