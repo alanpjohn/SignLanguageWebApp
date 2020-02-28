@@ -81,7 +81,6 @@ app.post("/api/start", async (req,res,next)=>{
 
 app.post("/api/end", async (req,res)=>{
     let userhash = req.query.user
-    console.log(userhash)
     try{
     await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
         assert.equal(null, err);
@@ -169,7 +168,6 @@ io.on('connection', (socket) => {
                         var newvalues = { $set: {guest: true, connecttime: Date.now()} };
                         db.collection("Sessions").findOne(searchquery,async function(err, result) {
                             if (err || !result) throw err;
-                            console.log(result)
                             client.close();
                             socket.join(room)
                             socket.emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length || 2 })
