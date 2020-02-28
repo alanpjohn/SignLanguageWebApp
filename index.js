@@ -147,9 +147,10 @@ io.on('connection', (socket) => {
                         db.collection("Sessions").findOne(searchquery, function(err, result) {
                             if (err || !result) throw err;
                             console.log(result)
+                            db.close();
                             socket.join(room)
                             io.in(data.room).emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length || 2 })
-                            db.close();
+                            
                         });
                         //res.send({success:true})
                     }); 
