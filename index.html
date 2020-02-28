@@ -221,9 +221,9 @@
                 recognition.stop();
               }
             }else{
-              window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+              window.SpeechRecognition = window.webkitpeechRecognition;
               let finalTranscript = '';
-              recognition = new window.webkitSpeechRecognition();
+              recognition = new window.SpeechRecognition();
 
               recognition.interimResults = true;
               recognition.maxAlternatives = 10;
