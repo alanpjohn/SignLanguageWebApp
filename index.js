@@ -110,7 +110,7 @@ app.get("/api/image" , async (req,res)=>{
                 word : word
             }
             //var newvalues = { $set: {guest: true, connecttime: Date.now()} };
-            await db.collection('image_dictionary').findOne(searchquery , function(err,result){
+            await db.collection('images_dictionary').findOne(searchquery , function(err,result){
                 if (err || !result) res.send({success:false})
                 res.send({success:true , url:result.url_link});
             });
