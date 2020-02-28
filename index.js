@@ -109,7 +109,10 @@ app.get("/api/image" , async (req,res)=>{
                 word : word
             }
             db.collection("images_dictionary").findOne(searchquery,async function(err, result) {
-                if (err || !result) res.send({success:false});
+                if (err || !result){ 
+                    res.send({success:false});
+                    throw err;
+                }
                 res.send({success:true, url : result.url_link})
                  
             });
