@@ -224,7 +224,7 @@
             }else{
               window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
               let finalTranscript = '';
-              recognition = new window.SpeechRecognition();
+              recognition = window.SpeechRecognition;
 
               recognition.interimResults = true;
               recognition.maxAlternatives = 10;
