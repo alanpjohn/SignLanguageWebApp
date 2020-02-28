@@ -63,7 +63,8 @@ app.post("/api/start", async (req,res,next)=>{
             await db.collection('Sessions').insertOne({
                 startTime: date,
                 userHash: userHash,
-                guest: false
+                guest: false,
+                log:[]
             });
             client.close();
             res.send({success : true} );
@@ -98,7 +99,27 @@ app.post("/api/end", async (req,res)=>{
         res.send({success:false})
     }
 });
-
+app,get("/api/image" , async (req,res)=>{
+    let word = req.check_word;
+    console.log(word+" is called");
+    try{
+        await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
+            assert.equal(null, err);
+            const db = client.db(dbName);
+            let searchquery = {
+                word : word
+            }
+            //var newvalues = { $set: {guest: true, connecttime: Date.now()} };
+            await db.collection('image_dictionary').findOne(searchquery , function(err,result){
+                if (err || !result) res.send({success:false})
+                res.send({success:true , url:result.url_link});
+            });
+            client.close();
+        }); 
+        }catch(err){
+            console.log(err)
+        }
+})
 app.get("/api/connect", async (req,res)=>{
     // end session
     let userhash = req.query.user
@@ -109,7 +130,7 @@ app.get("/api/connect", async (req,res)=>{
             let searchquery = {
                 userHash : userhash
             }
-            var newvalues = { $set: {guest: true, connecttime: Date.now() , log:[]} };
+            var newvalues = { $set: {guest: true, connecttime: Date.now() } };
             await db.collection('Sessions').updateOne(searchquery,newvalues);
             client.close();
             //res.send({success:true})
@@ -149,14 +170,14 @@ io.on('connection', (socket) => {
                             console.log(result)
                             client.close();
                             socket.join(room)
-                            io.in(data.room).emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length || 2 })
+                            socket.emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length || 2 })
                             await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
                                 assert.equal(null, err);
                                 const db = client.db(dbName);
                                 let searchquery = {
                                     userHash : room
                                 }
-                                var newvalues = { $set: {guest: true, connecttime: Date.now(), log:[]} };
+                                var newvalues = { $set: {guest: true, connecttime: Date.now()} };
                                 await db.collection('Sessions').updateOne(searchquery,newvalues);
                                 client.close();
                                 //res.send({success:true})
@@ -181,6 +202,11 @@ io.on('connection', (socket) => {
         }); 
         console.log(room ," : ", userNickname ," : ", data)
         io.in(room).emit("new message" , {username : userNickname , message : data});
+    })
+
+    socket.on("leave",function () {
+        socket.leave(room);
+        room = "test";
     })
 
     socket.on('word detected' , async function(data){
