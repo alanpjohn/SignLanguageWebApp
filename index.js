@@ -11,6 +11,7 @@ const url = "mongodb+srv://AlanJohn:Claw123@claw-6czxa.mongodb.net/test?retryWri
  
 // Database Name
 const dbName = 'SignLanguage';
+
 var tmfile = fs.readFileSync('./config/tmclaw.js')
 var data=fs.readFileSync('./model/my_model/model.json', 'utf8');
 var metadata=fs.readFileSync('./model/my_model/metadata.json', 'utf8');
@@ -25,7 +26,9 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse form data client
 
-
+app.get("/api/app" , async (req,res)=>{
+    res.redirect("")
+});
 app.get("/api/model.json" , async (req,res)=>{
     var words=JSON.parse(data);
     res.send(words)
@@ -100,18 +103,18 @@ app.get("/api/connect", async (req,res)=>{
     // end session
     let userhash = req.query.user
     try{
-    await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
-        assert.equal(null, err);
-        const db = client.db(dbName);
-        let searchquery = {
-            userHash : userhash
-        }
-        var newvalues = { $set: {guest: true, connecttime: Date.now()} };
-        await db.collection('Sessions').updateOne(searchquery,newvalues);
-        client.close();
-        //res.send({success:true})
-        res.cookie("user",userhash, { expire: 360000 + Date.now()}).redirect("https://www.clawpro.club");
-    }); 
+        await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
+            assert.equal(null, err);
+            const db = client.db(dbName);
+            let searchquery = {
+                userHash : userhash
+            }
+            var newvalues = { $set: {guest: true, connecttime: Date.now()} };
+            await db.collection('Sessions').updateOne(searchquery,newvalues);
+            client.close();
+            //res.send({success:true})
+            res.cookie("user",userhash, { expire: 360000 + Date.now()}).redirect("https://www.clawpro.club");
+        }); 
     }catch(err){
         console.log(err)
         res.send({success:false})
@@ -133,8 +136,27 @@ io.on('connection', (socket) => {
     socket.on('join', function(data) {
                 userNickname = data.username;
                 room = data.room
-                socket.join(room)
-                io.in(data.room).emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length || 2 })
+                try{
+                    await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
+                        assert.equal(null, err);
+                        const db = client.db(dbName);
+                        let searchquery = {
+                            userHash : room
+                        }
+                        var newvalues = { $set: {guest: true, connecttime: Date.now()} };
+                        dbo.collection("Sessions").findOne(searchquery, function(err, result) {
+                            if (err || !result.userHash) throw err;
+                            db.close();
+                        });
+                        //res.send({success:true})
+                        socket.join(room)
+                        io.in(data.room).emit("login",{ numUsers : Object.keys(io.in(data.room).sockets).length || 2 })
+                    }); 
+                }catch(err){
+                    console.log(err)
+                    socket.emit("loginfailed" , { success : "false"} )
+                }
+                
         })
     socket.on('new message' , function(data){
         console.log(room ," : ", userNickname ," : ", data)
