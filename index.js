@@ -99,8 +99,9 @@ app.post("/api/end", async (req,res)=>{
         res.send({success:false})
     }
 });
-app.get("/api/image" , async (req,res)=>{
+app.post("/api/image" , async (req,res)=>{
     let word = req.body.check_word;
+    console.log(req.body);
     try{
         await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
             assert.equal(null, err);
@@ -118,7 +119,6 @@ app.get("/api/image" , async (req,res)=>{
             });
         }); 
         }catch(err){
-            
             console.log(err)
         }
 })
