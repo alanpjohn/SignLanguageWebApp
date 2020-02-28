@@ -77,6 +77,8 @@
     
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
         <script src="https://www.clawpro.club/api/tmclaw.js"></script>
+
+        <script src="speech.js"></script>
         <script type="text/javascript">
             // More API functions here:
             // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
@@ -216,7 +218,9 @@
           function startlisten(){
             if(listening){
               listening = false;
-              recognition.stop();
+              if(recognition){
+                recognition.stop();
+              }
             }else{
               window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
               let finalTranscript = '';
@@ -245,6 +249,5 @@
 
         </script>
         
-        <script src="speech.js"></script>
     </body>
 </html>
