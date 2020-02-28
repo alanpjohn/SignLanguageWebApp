@@ -154,7 +154,6 @@ io.on('connection', (socket) => {
                         //res.send({success:true})
                     }); 
                 }catch(err){
-                    console.log(err)
                     socket.emit("loginfailed" , { success : "false"} )
                 }
                 
