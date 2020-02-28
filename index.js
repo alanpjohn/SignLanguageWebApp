@@ -101,7 +101,7 @@ app.post("/api/end", async (req,res)=>{
 });
 app.get("/api/image" , async (req,res)=>{
     let word = req.body.check_word;
-    console.log(word+" is called");
+    console.log(body);
     try{
         await MongoClient.connect(url,{useUnifiedTopology: true},async function(err, client) {
             assert.equal(null, err);
