@@ -9,7 +9,7 @@
 - [Shashank Sharma](https://github.com/shashank8943)
 - [Utkarsh Gupta](https://github.com/UtkG07)
 
-### Android Application
+### Web Application
 ![Build Status](https://travis-ci.com/TheForeverLost/SignLanguageWebApp.svg?token=v6zDSnv1qrzDZqAo9pq8&branch=master)
 <br>
 AskEye is multi-application two way Sign Language interpreter project consisting of :
