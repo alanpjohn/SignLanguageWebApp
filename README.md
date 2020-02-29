@@ -10,7 +10,8 @@
 - [Utkarsh Gupta](https://github.com/UtkG07)
 
 ### Android Application
-[![Build Status](https://travis-ci.com/TheForeverLost/SignLanguageWebApp.svg?token=v6zDSnv1qrzDZqAo9pq8&branch=master)](https://travis-ci.com/TheForeverLost/
+![Build Status](https://travis-ci.com/TheForeverLost/SignLanguageWebApp.svg?token=v6zDSnv1qrzDZqAo9pq8&branch=master)
+<br>
 AskEye is multi-application two way Sign Language interpreter project consisting of :
  - [Web Application](https://github.com/TheForeverLost/SignLanguageWebApp)
  - [Android Application](https://github.com/TheForeverLost/AskEye)
@@ -24,8 +25,8 @@ The Web Application for Askeye has the following features :
 - Secure Chat feature that involves speech to text  
 
 #### ScreenShots
-<img src="https://github.com/TheForeverLost/SignLanguageWebApp/blob/master/images/ss1.jpeg" width="300" height="600">
-<img src="https://github.com/TheForeverLost/SignLanguageWebApp/blob/master/images/ss2.jpeg" width="300" height="600">
+<img src="https://github.com/TheForeverLost/SignLanguageWebApp/blob/master/ss2.jpeg" width="300" height="550">
+<img src="https://github.com/TheForeverLost/SignLanguageWebApp/blob/master/ss1.jpeg" width="300" height="550">
 
 > The Project can be improved upon and we are always looking for contributors for
 >> Creation of reliable Datasets
